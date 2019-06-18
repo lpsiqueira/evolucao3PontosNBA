@@ -166,11 +166,11 @@ class Histograma extends Grafico {
         for(let dados of this.dados) {
             dom = dom.concat(dados)
         }
-        console.log(dom)
+        //console.log(dom)
 
 
         this.dominio = dom.map((el) => el.x)
-        console.log(this.dominio)
+        //console.log(this.dominio)
         this.scalaX = d3.scaleBand()
             .domain(this.dominio)
             .range([this.margemHorizontal, this.largura - (this.margemDireita)])
