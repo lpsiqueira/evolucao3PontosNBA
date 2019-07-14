@@ -476,30 +476,33 @@ class Tabela extends Grafico {
     criaDivisoes() {
         this.largColuna = this.scalaX((this.largura-this.margemHorizontal-this.margemDireita)/this.colunas.length)
         this.largLinha = this.scalaY((this.altura-this.margemVertical-this.margemVertical)/30)
-        let divs = this.svg.append('g')
-            .attr('class', 'divisoes');
 
         let x = this.margemHorizontal+this.largColuna
-        let posDivsVerticais = [this.scalaX(this.margemHorizontal)]
+        this.posDivsVerticais = [this.scalaX(this.margemHorizontal)]
         for (let i=0; i<this.colunas.length; i++) {
-            posDivsVerticais.push(this.scalaX(x))
+            this.posDivsVerticais.push(this.scalaX(x))
             x += this.largColuna
         }
         let y = this.margemVertical+this.largLinha
-        let posDivsHorizontais = [this.scalaY(this.margemVertical)]
+        this.posDivsHorizontais = [this.scalaY(this.margemVertical)]
         for (let j=0; j<30; j++) {
-            posDivsHorizontais.push(this.scalaY(y))
+            this.posDivsHorizontais.push(this.scalaY(y))
             y += this.largLinha
         }
+    }
 
-        divs.selectAll('line .verticais').data(posDivsVerticais).enter().append('line')
+    preencheDivisoes() {
+        let divs = this.svg.append('g')
+            .attr('class', 'divisoes');        
+
+        divs.selectAll('line .verticais').data(this.posDivsVerticais).enter().append('line')
             .attr('class', 'verticais')
             .attr('x1', (d) => {return d})
             .attr('y1', this.scalaY(this.margemVertical))
             .attr('x2', (d) => {return d})
             .attr('y2', this.scalaY(this.altura-this.margemVertical))
             .attr('stroke', 'black');
-        divs.selectAll('line .horizontais').data(posDivsHorizontais).enter().append('line')
+        divs.selectAll('line .horizontais').data(this.posDivsHorizontais).enter().append('line')
             .attr('class', 'horizontais')
             .attr('x1', this.scalaX(this.margemHorizontal))
             .attr('y1', (d) => {return d})
@@ -508,7 +511,7 @@ class Tabela extends Grafico {
             .attr('stroke', 'black');
 
 
-        divs.append('rect')
+        /* divs.append('rect')
             .attr('x', this.scalaX(this.margemHorizontal))
             .attr('y', this.scalaY(this.margemVertical))
             .attr('width', this.largColuna)
@@ -521,6 +524,34 @@ class Tabela extends Grafico {
             .attr('width', this.scalaX(this.largColuna))
             .attr('height', this.scalaY(this.largLinha))
             .attr('stroke', 'black')
-            .attr('fill', 'blue');
+            .attr('fill', 'blue'); */
+    }
+
+    atribuiDados(dados) {
+        this.dados = dados
+        this.preenche()
+    }
+
+    preenche() {
+        let g = this.svg.append('g')
+            .attr('class', 'dados');
+
+        console.log(this.posDivsHorizontais)
+
+        let opacs = [], j = 0
+        for (let dado of this.dados) {
+            //console.log(dado)
+            for(let i=0; i<dado.info.length; i++) {
+                opacs.push({opac: dado.info[i]/3750, pos:this.scalaX(this.posDivsVerticais[i])})
+            }            
+            g.selectAll('rect').data(opacs).enter().append('rect')
+                .attr('x', (d) => {return d.pos})
+                .attr('y', this.posDivsHorizontais[j])
+                .attr('width', this.scalaX(this.largColuna))
+                .attr('height', this.scalaY(this.largLinha))
+                .attr('fill', (d) => {return `rgb(255,${255-255*d.opac},${255-255*d.opac})`});
+
+            j++;
+        }
     }
 }
