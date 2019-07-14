@@ -62,7 +62,7 @@ class ReadData {
                     for (let i=0; i<30; i++) {
                         novo.push({
                             nome: teamStats[i].nome,
-                            legenda: ['0-3', '3-10', '10-16', '16-3p', '3p'],
+                            legenda: ['0-3 pés', '3-10 pés', '10-16 pés', '16 pés - 3 pontos', '3 pontos'],
                             info: [
                                 Math.trunc(infoArremessos[10].info[i]['0-3']*teamStats[i].tent2P),
                                 Math.trunc(infoArremessos[10].info[i]['3-10']*teamStats[i].tent2P),
@@ -75,10 +75,7 @@ class ReadData {
 
 
                     let tabela = new Tabela('tabela')
-                    tabela.criaEscala()
-                    tabela.criaDivisoes()
                     tabela.atribuiDados(novo)
-                    tabela.preencheDivisoes()
                     console.log(novo)
                 }
             })

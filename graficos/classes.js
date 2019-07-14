@@ -527,9 +527,27 @@ class Tabela extends Grafico {
             .attr('fill', 'blue'); */
     }
 
-    atribuiDados(dados) {
-        this.dados = dados
-        this.preenche()
+    legendaEixo() {
+        let times = [], j = 0
+        let g = this.svg.append('g')
+            .attr('class', 'legendaeixo');
+        for (let dado of this.dados) {
+            times.push(dado.nome)
+            g.selectAll('text').data(times).enter().append('text')
+                .attr('x', this.largura-this.margemDireita+10)
+                .attr('y', this.posDivsHorizontais[j]+25)
+                .text(dado.nome);
+
+            j++;
+        }
+        let legendas = []
+        legendas = times.concat(this.dados[0].legenda)
+        console.log(legendas)
+        let i = -1;
+        g.selectAll('text').data(legendas).enter().append('text')
+            .attr('x', (d) => {i++; return this.posDivsVerticais[i]+10})
+            .attr('y', this.margemVertical-10)
+            .text( (d) => {return d} );
     }
 
     preenche() {
@@ -542,7 +560,7 @@ class Tabela extends Grafico {
         for (let dado of this.dados) {
             //console.log(dado)
             for(let i=0; i<dado.info.length; i++) {
-                opacs.push({opac: dado.info[i]/3750, pos:this.scalaX(this.posDivsVerticais[i])})
+                opacs.push({opac: dado.info[i]/3721, pos:this.scalaX(this.posDivsVerticais[i])})
             }            
             g.selectAll('rect').data(opacs).enter().append('rect')
                 .attr('x', (d) => {return d.pos})
@@ -553,5 +571,14 @@ class Tabela extends Grafico {
 
             j++;
         }
+    }
+
+    atribuiDados(dados) {
+        this.dados = dados
+        this.criaEscala()
+        this.criaDivisoes()
+        this.preenche()
+        this.preencheDivisoes()
+        this.legendaEixo()
     }
 }
