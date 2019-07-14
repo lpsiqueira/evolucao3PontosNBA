@@ -8,7 +8,7 @@ class ReadData {
     }
     
     read() {
-        let tentativas = [], convertidos = [], infoArremessos = []
+        let tentativas = [], convertidos = [], infoArremessos = [], teamStats
         this.shooting = infoArremessos
         this.convertidos = convertidos
         this.tentativas = tentativas
@@ -19,14 +19,15 @@ class ReadData {
             tent = 0
             conv = 0
             d3.text(`./dados/20${Math.floor(i/10)-Math.floor((i%10)/10)}${i%10}-20${Math.floor(a/10)-Math.floor((a%10)/10)}${a%10}_team-stats.csv`).then((statsString) => {
-                let teamStats = d3.csvParseRows(statsString, (d) => {
+                teamStats = d3.csvParseRows(statsString, (d) => {
                     if(d[0]!="" && d[0]!="Rk") {
                         tent += +d[8]
                         conv += +d[7]
                         return {
                             nome: d[1],
                             '3p': +d[7],
-                            tent3P: +d[8],        
+                            tent3P: +d[8],
+                            tent2P: +d[5]
                         }
                     }                
                 })
@@ -54,7 +55,22 @@ class ReadData {
                 if (infoArremessos.length>=11) {
                     this.main.assignData(this.tentativas, this.convertidos, this.shooting)
                     this.main.showGraphs()
-                    console.log(infoArremessos)
+                    console.log(infoArremessos[10].info)
+                    console.log(teamStats)
+
+                    let novo = []
+                    for (let i=0; i<30; i++) {
+                        infoArremessos[10].info
+                        novo.push({
+                            nome: teamStats[i].nome,
+                            '0-3': Math.trunc(infoArremessos[10].info[i]['0-3']*teamStats[i].tent2P),
+                            '3-10': Math.trunc(infoArremessos[10].info[i]['3-10']*teamStats[i].tent2P),
+                            '10-16': Math.trunc(infoArremessos[10].info[i]['10-16']*teamStats[i].tent2P),
+                            '16-3p': Math.trunc(infoArremessos[10].info[i]['16-3p']*teamStats[i].tent2P),
+                            '3p': teamStats[i].tent3P
+                        })
+                    }
+                    console.log(novo)
                 }
             })
         }
