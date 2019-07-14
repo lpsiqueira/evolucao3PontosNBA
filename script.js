@@ -12,6 +12,7 @@ class ReadData {
         this.shooting = infoArremessos
         this.convertidos = convertidos
         this.tentativas = tentativas
+        this.tempShooting = []
         let a, tent, conv
 
         for(let i=8; i<19; i++) {
@@ -53,14 +54,9 @@ class ReadData {
                 })
                 infoArremessos.push({ano:2000+i, info:teamShooting})
                 if (infoArremessos.length>=11) {
-                    this.main.assignData(this.tentativas, this.convertidos, this.shooting)
-                    this.main.showGraphs()
-                    console.log(infoArremessos[10].info)
-                    console.log(teamStats)
-
-                    let novo = []
+                    //let novo = []
                     for (let i=0; i<30; i++) {
-                        novo.push({
+                        this.tempShooting.push({
                             nome: teamStats[i].nome,
                             legenda: ['0-3 pés', '3-10 pés', '10-16 pés', '16 pés - 3 pontos', '3 pontos'],
                             info: [
@@ -72,16 +68,16 @@ class ReadData {
                             ]
                         })
                     }
-
-
-                    let tabela = new Tabela('tabela')
-                    tabela.atribuiDados(novo)
-                    console.log(novo)
+                    
+                    this.main.assignData(this.tentativas, this.convertidos, this.tempShooting)
+                    this.main.showGraphs()
+                    console.log(infoArremessos[10].info)
+                    console.log(teamStats)
                 }
             })
         }
     }
 }
 
-let read = new ReadData(new Main('grafico'))
+let read = new ReadData(new Main('grafico', 'tabela'))
 read.read()

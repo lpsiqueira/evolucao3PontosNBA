@@ -1,8 +1,9 @@
 //import * from './graficos/classes.js'
 
 class Main{
-    constructor(tag){
+    constructor(tag, tag2){
         this.hist = new Histograma(tag)
+        this.tabela = new Tabela(tag2)
     }
 
     assignData(attempts, made, teamShooting) {
@@ -14,5 +15,6 @@ class Main{
     showGraphs(){
         this.hist.atribuiDados(this.attempts)
         this.hist.atribuiDados(this.made)
+        this.tabela.atribuiDados(this.teamShooting)
     }
 }
