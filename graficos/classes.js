@@ -421,8 +421,9 @@ class Serie extends Grafico {
 }
 
 class Tabela extends Grafico {
-    constructor(tag, altura=1200, largura=1000) {
+    constructor(tag, altura=1200, largura=1100) {
         super(tag, altura, largura)
+        this.margemDireita += 100
         this.dados = []
         this.group = []
         this.dominio = []
