@@ -419,3 +419,108 @@ class Serie extends Grafico {
             }) */
     }
 }
+
+class Tabela extends Grafico {
+    constructor(tag, altura=1200, largura=1000) {
+        super(tag, altura, largura)
+        this.dados = []
+        this.group = []
+        this.dominio = []
+
+        this.colunas = ['0-3', '3-10', '10-16', '16-3p', '3p']
+        this.largColuna = 0
+    }
+
+    criaEscala() {
+        this.scalaX = d3.scaleLinear()
+            .domain([this.margemHorizontal, this.largura-this.margemDireita])
+            .range([this.margemHorizontal, this.largura-this.margemDireita]);
+        this.scalaY = d3.scaleLinear()
+            .domain([this.margemVertical, this.altura-this.margemVertical])
+            .range([this.margemVertical, this.altura-this.margemVertical]);
+    }
+
+    /* criaMargens() {
+        let bordas = this.svg.append('g')
+            .attr('class', 'bordas')
+        bordas.append('line')
+            .attr('class', 'borda')
+            .attr('x1', this.scalaX(this.margemHorizontal))
+            .attr('y1', this.scalaY(this.margemVertical))
+            .attr('x2', this.scalaX(this.margemHorizontal))
+            .attr('y2', this.scalaY(this.altura-this.margemVertical))
+            .attr('stroke', 'black')
+        bordas.append('line')
+            .attr('class', 'borda')
+            .attr('x1', this.scalaX(this.largura-this.margemDireita))
+            .attr('y1', this.scalaY(this.margemVertical))
+            .attr('x2', this.scalaX(this.largura-this.margemDireita))
+            .attr('y2', this.scalaY(this.altura-this.margemVertical))
+            .attr('stroke', 'black')
+        bordas.append('line')
+            .attr('class', 'borda')
+            .attr('x1', this.scalaX(this.margemHorizontal))
+            .attr('y1', this.scalaY(this.margemVertical))
+            .attr('x2', this.scalaX(this.largura-this.margemDireita))
+            .attr('y2', this.scalaY(this.margemVertical))
+            .attr('stroke', 'black')
+        bordas.append('line')
+            .attr('class', 'borda')
+            .attr('x1', this.scalaX(this.margemHorizontal))
+            .attr('y1', this.scalaY(this.altura-this.margemVertical))
+            .attr('x2', this.scalaX(this.largura-this.margemDireita))
+            .attr('y2', this.scalaY(this.altura-this.margemVertical))
+            .attr('stroke', 'black')
+    } */
+
+    criaDivisoes() {
+        this.largColuna = this.scalaX((this.largura-this.margemHorizontal-this.margemDireita)/this.colunas.length)
+        this.largLinha = this.scalaY((this.altura-this.margemVertical-this.margemVertical)/30)
+        let divs = this.svg.append('g')
+            .attr('class', 'divisoes');
+
+        let x = this.margemHorizontal+this.largColuna
+        let posDivsVerticais = [this.scalaX(this.margemHorizontal)]
+        for (let i=0; i<this.colunas.length; i++) {
+            posDivsVerticais.push(this.scalaX(x))
+            x += this.largColuna
+        }
+        let y = this.margemVertical+this.largLinha
+        let posDivsHorizontais = [this.scalaY(this.margemVertical)]
+        for (let j=0; j<30; j++) {
+            posDivsHorizontais.push(this.scalaY(y))
+            y += this.largLinha
+        }
+
+        divs.selectAll('line .verticais').data(posDivsVerticais).enter().append('line')
+            .attr('class', 'verticais')
+            .attr('x1', (d) => {return d})
+            .attr('y1', this.scalaY(this.margemVertical))
+            .attr('x2', (d) => {return d})
+            .attr('y2', this.scalaY(this.altura-this.margemVertical))
+            .attr('stroke', 'black');
+        divs.selectAll('line .horizontais').data(posDivsHorizontais).enter().append('line')
+            .attr('class', 'horizontais')
+            .attr('x1', this.scalaX(this.margemHorizontal))
+            .attr('y1', (d) => {return d})
+            .attr('x2', this.scalaX(this.largura-this.margemDireita))
+            .attr('y2', (d) => {return d})
+            .attr('stroke', 'black');
+
+
+        divs.append('rect')
+            .attr('x', this.scalaX(this.margemHorizontal))
+            .attr('y', this.scalaY(this.margemVertical))
+            .attr('width', this.largColuna)
+            .attr('height', this.scalaY(this.largLinha))
+            .attr('stroke', 'black')
+            .attr('fill', 'black');
+        divs.append('rect')
+            .attr('x', this.scalaX(this.margemHorizontal+this.largColuna))
+            .attr('y', this.scalaY(this.margemVertical))
+            .attr('width', this.scalaX(this.largColuna))
+            .attr('height', this.scalaY(this.largLinha))
+            .attr('stroke', 'black')
+            .attr('fill', 'blue');
+    }
+}

@@ -54,6 +54,7 @@ class ReadData {
                 if (infoArremessos.length>=11) {
                     this.main.assignData(this.tentativas, this.convertidos, this.shooting)
                     this.main.showGraphs()
+                    console.log(infoArremessos)
                 }
             })
         }
