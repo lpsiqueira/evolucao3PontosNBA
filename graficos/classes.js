@@ -62,7 +62,7 @@ class Grafico {
 
     adicionaLabels(titulo, labelX, labelY) {
         this.info.titulo = this.svg.append('text')
-            .attr('transform', `translate(${(this.largura-this.margemHorizontal-this.margemDireita)/2}, ${this.margemVertical-20})`)
+            .attr('transform', `translate(${(this.largura-this.margemHorizontal-this.margemDireita)/2}, ${this.margemVertical-35})`)
             .attr('class', 'titulo')
             .text(titulo)
         this.info.legendaEixoX = this.svg.append('text')
@@ -441,39 +441,6 @@ class Tabela extends Grafico {
             .range([this.margemVertical, this.altura-this.margemVertical]);
     }
 
-    /* criaMargens() {
-        let bordas = this.svg.append('g')
-            .attr('class', 'bordas')
-        bordas.append('line')
-            .attr('class', 'borda')
-            .attr('x1', this.scalaX(this.margemHorizontal))
-            .attr('y1', this.scalaY(this.margemVertical))
-            .attr('x2', this.scalaX(this.margemHorizontal))
-            .attr('y2', this.scalaY(this.altura-this.margemVertical))
-            .attr('stroke', 'black')
-        bordas.append('line')
-            .attr('class', 'borda')
-            .attr('x1', this.scalaX(this.largura-this.margemDireita))
-            .attr('y1', this.scalaY(this.margemVertical))
-            .attr('x2', this.scalaX(this.largura-this.margemDireita))
-            .attr('y2', this.scalaY(this.altura-this.margemVertical))
-            .attr('stroke', 'black')
-        bordas.append('line')
-            .attr('class', 'borda')
-            .attr('x1', this.scalaX(this.margemHorizontal))
-            .attr('y1', this.scalaY(this.margemVertical))
-            .attr('x2', this.scalaX(this.largura-this.margemDireita))
-            .attr('y2', this.scalaY(this.margemVertical))
-            .attr('stroke', 'black')
-        bordas.append('line')
-            .attr('class', 'borda')
-            .attr('x1', this.scalaX(this.margemHorizontal))
-            .attr('y1', this.scalaY(this.altura-this.margemVertical))
-            .attr('x2', this.scalaX(this.largura-this.margemDireita))
-            .attr('y2', this.scalaY(this.altura-this.margemVertical))
-            .attr('stroke', 'black')
-    } */
-
     criaDivisoes() {
         this.largColuna = this.scalaX((this.largura-this.margemHorizontal-this.margemDireita)/this.colunas.length)
         this.largLinha = this.scalaY((this.altura-this.margemVertical-this.margemVertical)/30)
@@ -510,22 +477,6 @@ class Tabela extends Grafico {
             .attr('x2', this.scalaX(this.largura-this.margemDireita))
             .attr('y2', (d) => {return d})
             .attr('stroke', 'black');
-
-
-        /* divs.append('rect')
-            .attr('x', this.scalaX(this.margemHorizontal))
-            .attr('y', this.scalaY(this.margemVertical))
-            .attr('width', this.largColuna)
-            .attr('height', this.scalaY(this.largLinha))
-            .attr('stroke', 'black')
-            .attr('fill', 'black');
-        divs.append('rect')
-            .attr('x', this.scalaX(this.margemHorizontal+this.largColuna))
-            .attr('y', this.scalaY(this.margemVertical))
-            .attr('width', this.scalaX(this.largColuna))
-            .attr('height', this.scalaY(this.largLinha))
-            .attr('stroke', 'black')
-            .attr('fill', 'blue'); */
     }
 
     legendaEixo() {
