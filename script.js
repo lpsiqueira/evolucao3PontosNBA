@@ -68,6 +68,12 @@ class ReadData {
                     let posTempStats = this.find(this.tempStats, 2018)
                     let posInfoArr = this.find(infoArremessos, 2018)
 
+                    console.log(this.tempStats)
+                    console.log(infoArremessos)
+
+                    console.log(this.tempStats[posTempStats])
+                    console.log(infoArremessos[posInfoArr])
+
                     for (let i=0; i<30; i++) {
                         //console.log(teamStats)
                         this.tempShooting.push({
@@ -82,12 +88,9 @@ class ReadData {
                             ]
                         })
                     }
-                    //console.log(this.tentativas)
 
                     this.main.assignData(this.tentativas, this.convertidos, this.tempShooting)
                     this.main.showGraphs()
-                    //console.log(infoArremessos[10].info)
-                    //console.log(teamStats)
                 }
             })
         }

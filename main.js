@@ -23,6 +23,8 @@ class Main{
     showGraphs(){
         this.hist.atribuiDados(this.attempts)
         this.hist.atribuiDados(this.made)
+        this.hist.adicionaLegenda(['Tentativas', 'Convertidos'])
+        this.hist.adicionaLabels('Arremessos de 3 Pontos', 'temporada', 'totais')
         this.tabela.atribuiDados(this.teamShooting)
     }
 }
