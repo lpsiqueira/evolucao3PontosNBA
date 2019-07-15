@@ -543,7 +543,7 @@ class Tabela extends Grafico {
         }
         let legendas = []
         legendas = times.concat(this.dados[0].legenda)
-        console.log(legendas)
+        //console.log(legendas)
         let i = -1;
         g.selectAll('text').data(legendas).enter().append('text')
             .attr('x', (d) => {i++; return this.posDivsVerticais[i]+10})
@@ -555,7 +555,7 @@ class Tabela extends Grafico {
         let g = this.svg.append('g')
             .attr('class', 'dados');
 
-        console.log(this.posDivsHorizontais)
+        //console.log(this.posDivsHorizontais)
 
         let opacs = [], j = 0
         for (let dado of this.dados) {

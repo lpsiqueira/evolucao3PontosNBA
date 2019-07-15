@@ -6,6 +6,14 @@ class ReadData {
     constructor(main){
         this.main = main
     }
+
+    find(vetor, ano) {
+        let pos
+        for (let i=0; i<vetor.length; i++) {
+            if (vetor[i].ano == ano) pos = i;
+        }
+        return pos
+    }
     
     read() {
         let tentativas = [], convertidos = [], infoArremessos = [], teamStats
@@ -13,6 +21,7 @@ class ReadData {
         this.convertidos = convertidos
         this.tentativas = tentativas
         this.tempShooting = []
+        this.tempStats = []
         let a, tent, conv
 
         for(let i=8; i<19; i++) {
@@ -34,6 +43,7 @@ class ReadData {
                 })
                 tentativas.push({x:2000+i, y:tent})
                 convertidos.push({x:2000+i, y:conv})
+                this.tempStats.push({ano:2000+i, info:teamStats})
                 tent = 0
                 conv = 0
             })
@@ -54,25 +64,30 @@ class ReadData {
                 })
                 infoArremessos.push({ano:2000+i, info:teamShooting})
                 if (infoArremessos.length>=11) {
-                    //let novo = []
+
+                    let posTempStats = this.find(this.tempStats, 2018)
+                    let posInfoArr = this.find(infoArremessos, 2018)
+
                     for (let i=0; i<30; i++) {
+                        //console.log(teamStats)
                         this.tempShooting.push({
                             nome: teamStats[i].nome,
                             legenda: ['0-3 pés', '3-10 pés', '10-16 pés', '16 pés - 3 pontos', '3 pontos'],
                             info: [
-                                Math.trunc(infoArremessos[10].info[i]['0-3']*teamStats[i].tent2P),
-                                Math.trunc(infoArremessos[10].info[i]['3-10']*teamStats[i].tent2P),
-                                Math.trunc(infoArremessos[10].info[i]['10-16']*teamStats[i].tent2P),
-                                Math.trunc(infoArremessos[10].info[i]['16-3p']*teamStats[i].tent2P),
+                                Math.trunc(infoArremessos[posInfoArr].info[i]['0-3']*this.tempStats[posTempStats].info[i].tent2P),
+                                Math.trunc(infoArremessos[posInfoArr].info[i]['3-10']*this.tempStats[posTempStats].info[i].tent2P),
+                                Math.trunc(infoArremessos[posInfoArr].info[i]['10-16']*this.tempStats[posTempStats].info[i].tent2P),
+                                Math.trunc(infoArremessos[posInfoArr].info[i]['16-3p']*this.tempStats[posTempStats].info[i].tent2P),
                                 teamStats[i].tent3P
                             ]
                         })
                     }
-                    
+                    //console.log(this.tentativas)
+
                     this.main.assignData(this.tentativas, this.convertidos, this.tempShooting)
                     this.main.showGraphs()
-                    console.log(infoArremessos[10].info)
-                    console.log(teamStats)
+                    //console.log(infoArremessos[10].info)
+                    //console.log(teamStats)
                 }
             })
         }

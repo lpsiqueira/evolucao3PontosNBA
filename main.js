@@ -6,10 +6,18 @@ class Main{
         this.tabela = new Tabela(tag2)
     }
 
+    compare(a, b) {
+        if (a.ano < b.ano) return -1;
+        else return 1;
+    }
+
     assignData(attempts, made, teamShooting) {
         this.attempts = attempts
         this.made = made
         this.teamShooting = teamShooting
+
+        this.attempts.sort(this.compare)
+        this.attempts.sort(this.compare)
     }
 
     showGraphs(){
