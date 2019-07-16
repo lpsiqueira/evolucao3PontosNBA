@@ -421,9 +421,9 @@ class Serie extends Grafico {
 }
 
 class Tabela extends Grafico {
-    constructor(tag, altura=1200, largura=1100) {
+    constructor(tag, altura=1200, largura=1400) {
         super(tag, altura, largura)
-        this.margemDireita += 100
+        this.margemDireita += 400
         this.dados = []
         this.group = []
         this.dominio = []
@@ -500,6 +500,40 @@ class Tabela extends Grafico {
             .attr('x', (d) => {i++; return this.posDivsVerticais[i]+10})
             .attr('y', this.margemVertical-10)
             .text( (d) => {return d} );
+    }
+
+    legenda() {
+        let group = this.svg.append('g')
+        let gradient = group.append('linearGradient')
+            .attr('id', 'gradient');
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', 'white');
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', 'red');
+
+        let x = this.largura-this.margemDireita+200;
+        let y = this.margemVertical+10;
+        let altura = this.largLinha;
+        let largura = 130;
+
+        group.append('rect')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('width', largura)
+            .attr('height', this.largLinha)
+            .attr('stroke', 'black')
+            .attr('fill', 'url(#gradient)');
+
+        group.append('text')
+            .attr('x', x)
+            .attr('y', y+altura+15)
+            .text('0');
+        group.append('text')
+            .attr('x', x+100)
+            .attr('y', y+altura+15)
+            .text('3721');
     }
 
     preenche() {

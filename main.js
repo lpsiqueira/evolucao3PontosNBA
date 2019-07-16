@@ -27,5 +27,6 @@ class Main{
         this.hist.adicionaLabels('Arremessos de 3 Pontos', 'temporada', 'totais')
         this.tabela.atribuiDados(this.teamShooting)
         this.tabela.adicionaLabels('Composição dos arremessos de quadra', '', '')
+        this.tabela.legenda()
     }
 }
